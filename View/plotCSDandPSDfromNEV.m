@@ -8,7 +8,7 @@ el            = 'eA';
 sortdirection = 'ascending'; %  descending (NN) or ascending (Uprobe) % new note -- BMC 211007_B descenting and ascending is a moot point because of the new channel map
 pre           = 50;
 post          = 250;
-chans = FileInformationTable.useChans{1};
+chans = holderUseChans;
 
  
 flag_subtractbasline = true;
@@ -94,7 +94,7 @@ c = colorbar;
 %% PSD code
 
 %%
-%%
+%% Jake's PSD plot (kinda a mess...)
 
 
 chanLim = chans;
@@ -136,7 +136,8 @@ nsx.nyq = nsx.fs / 2;
 nsx.deci = nsx.fs / 1000;
 
 electD = openNSx( jnmfile, 'c:1', 'read' );
-tData = double( electD.Data );
+tData = double( electD.Data{1} );
+warning('you are only pulling out the first cell here. 220214 rfori called two cells. Does this happen on the next day. Did we change something in rfori on this day? ')
 
 samples = length( tData );
 
@@ -159,13 +160,9 @@ bnc = t2Data.';
 clear tData t2Data electD 
 
 if size( lfp, 1 ) < 33
-    
-    pNum = 1;
-    
+    pNum = 1;   
 else
-    
     pNum = 2;
-    
 end
 
 

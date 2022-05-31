@@ -1,4 +1,4 @@
-%% preProcessNeuralData_IOT
+%% preProcessNeuralData_rfori
 % Desired output is an IDX matrix
 clear
 setup_IOT('BrockHome')

@@ -43,8 +43,8 @@ cd(RIGDIR)
     end
     useChans  = {1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32}';
     qualityLaminarPenetration  = logical([0,0,0,0,1,0,1,1,1,1,1,1,1,1,1])';
-    trueIfRforiWasRunToday = logical([0,0,1,0,1,1,1,0,1,1,0,1,1,1,1])';
-    useDataInAnalysis = qualityLaminarPenetration & qualityLaminarPenetration;
+    trueIfRforiWasRunToday = logical([0,0,1,0,1,1,1,0,1,1,0,1,1,1,0])';
+    useDataInAnalysis = qualityLaminarPenetration & trueIfRforiWasRunToday;
     interpTheseChans = {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}';
     FileInformationTable = table(sessionListName,useDataInAnalysis, preLesionEvpFileName, rforiFileName, useChans,  interpTheseChans, qualityLaminarPenetration,trueIfRforiWasRunToday);
 
@@ -54,7 +54,13 @@ cd(RIGDIR)
 
 cd(OUTDIR_PLOT)
 for sessionNumber = 1:size(sessionListName,1)
-    if FileInformationTable.useDataInAnalysis(sessionNumber)
+    if sessionNumber == 7
+        warning('problem with session double')
+        continue
+
+    elseif FileInformationTable.useDataInAnalysis(sessionNumber)
+
+    
 
         holderNameEVP = FileInformationTable.preLesionEvpFileName{sessionNumber};
         holderNameRfori = FileInformationTable.rforiFileName{sessionNumber};
@@ -80,4 +86,9 @@ end
 
 
 
-
+% 7 has a problem with rfori
+% 8 = 220216_B does not HAVE an rfori -- (did I get something wrong in
+% mytruIfRforiWasRunToday?)
+% 9 runs
+% 10 runs
+% 15 does not run - no rfori

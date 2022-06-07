@@ -136,7 +136,7 @@ nsx.nyq = nsx.fs / 2;
 nsx.deci = nsx.fs / 1000;
 
 electD = openNSx( jnmfile, 'c:1', 'read' );
-tData = double( electD.Data{1} );
+tData = double( electD.Data );
 warning('you are only pulling out the first cell here. 220214 rfori called two cells. Does this happen on the next day. Did we change something in rfori on this day? ')
 
 samples = length( tData );

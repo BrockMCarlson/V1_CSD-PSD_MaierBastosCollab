@@ -280,6 +280,6 @@ set(gca,'xdir','reverse')
 legend('Theta','Beta','Gamma','Location','northeast')
 titleText = {'Normalized Gamma x Beta power across contacts',BRdatafile(22:end)};
 
-
+test test
 
 end

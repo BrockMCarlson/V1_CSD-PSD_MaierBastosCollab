@@ -137,7 +137,7 @@ nsx.deci = nsx.fs / 1000;
 
 electD = openNSx( jnmfile, 'c:1', 'read' );
 tData = double( electD.Data );
-warning('you are only pulling out the first cell here. 220214 rfori called two cells. Does this happen on the next day. Did we change something in rfori on this day? ')
+%warning('you are only pulling out the first cell here. 220214 rfori called two cells. Does this happen on the next day. Did we change something in rfori on this day? ')
 
 samples = length( tData );
 
@@ -279,7 +279,5 @@ view([90 -90])
 set(gca,'xdir','reverse')
 legend('Theta','Beta','Gamma','Location','northeast')
 titleText = {'Normalized Gamma x Beta power across contacts',BRdatafile(22:end)};
-
-test test
 
 end

@@ -11,11 +11,12 @@
 
 %%
 clc
+clear
 close all
 [RIGDIR, CODEDIR, OUTDIR_FD, OUTDIR_PLOT] = setup_rfori('BrockWork');
 cd(RIGDIR)
 
-user = input('User Number:  ');
+
 
 %% Automation setup 
 
@@ -52,9 +53,11 @@ user = input('User Number:  ');
 % test test
 
 
+
 cd(OUTDIR_PLOT)
 for sessionNumber = 1:size(sessionListName,1)
     if sessionNumber == 7
+        warning('problem with session double')
         continue
 
     elseif FileInformationTable.useDataInAnalysis(sessionNumber)
@@ -63,21 +66,21 @@ for sessionNumber = 1:size(sessionListName,1)
 
         holderNameEVP = FileInformationTable.preLesionEvpFileName{sessionNumber};
         holderNameRfori = FileInformationTable.rforiFileName{sessionNumber};
-        holderUseChans = 1:24;   %FileInformationTable.useChans{sessionNumber};
+        holderUseChans = FileInformationTable.useChans{sessionNumber};
         holderInterpChans = FileInformationTable.interpTheseChans{sessionNumber};
          
         plotCSDandPSDfromNEV(holderNameEVP,holderUseChans,holderInterpChans);
               FigName   = strcat(sessionListName{sessionNumber},'_EVP');
               savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
+              saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
+                  saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
               close all
               
-       plotCSDandPSDfromNEV(holderNameRfori,holderUseChans,holderInterpChans);
+        plotCSDandPSDfromNEV(holderNameRfori,holderUseChans,holderInterpChans);
               FigName   = strcat(sessionListName{sessionNumber},'_rfori');
               savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
+              saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
+              saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
               close all
     end          
    

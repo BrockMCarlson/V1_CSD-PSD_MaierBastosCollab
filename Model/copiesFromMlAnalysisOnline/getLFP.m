@@ -30,7 +30,7 @@ currentdir = pwd;
 %     drname = sprintf('/Volumes/%s/DATA/NEUROPHYS/rig%s/%s',drobo,rignum,BRdatafile(1:8));
 % end
 filename = fullfile(drname,BRdatafile);
-cd(drname);
+%cd(drname);
 
 % THIS CODE DOES NOT DOWNSAMPLE OR FILTER DATA
 

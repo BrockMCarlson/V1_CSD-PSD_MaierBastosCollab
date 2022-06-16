@@ -1,3 +1,4 @@
+
 % processNEV_rfori()
 % plot PSD and CSD with NEV only - no stimulus information required
 
@@ -10,16 +11,17 @@
 %   2. All rfori files
 
 %%
-clc
+clear
 close all
-[RIGDIR, CODEDIR, OUTDIR_FD, OUTDIR_PLOT] = setup_rfori('BrockWork');
-cd(RIGDIR)
+clc
 
-user = input('User Number:  ');
+user= input('User Number: ');
+setup_rfori(user);
 
 %% Automation setup 
 
 %get all LLC session names
+global RIGDIR
     fileList = dir(RIGDIR);
     fileList = {fileList.name};
     sessionListName = fileList(1,3:end)'; %this removes the first two enteries with dots (why does it do that?)
@@ -41,49 +43,55 @@ user = input('User Number:  ');
             sessionListName{sessionNumber},...
             '_rfori4lesions001');
     end
-    useChans  = {1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32,1:32}';
-    qualityLaminarPenetration  = logical([0,0,0,0,1,0,1,1,1,1,1,1,1,1,1])';
-    trueIfRforiWasRunToday = logical([0,0,1,0,1,1,1,0,1,1,0,1,1,1,0])';
+    useChans  = {1:21,1:21,1:22,1:24,1:29,1:24,1:32,1:26,1:23,1:22,1:32,1:23,1:23,1:20,1:32}';
+    %qualityLaminarPenetration  = logical([0,0,0,0,1,0,1,1,1,1,1,1,1,1,1])';
+    qualityLaminarPenetration  = logical([1,1,1,1,0,1,0,0,0,0,0,0,0,0,0])'; %BAD QALITY
+    %trueIfRforiWasRunToday = logical([0,0,1,0,1,1,1,0,1,1,0,1,1,1,0])';
+    trueIfRforiWasRunToday = logical([1,1,0,1,0,0,0,1,0,0,1,0,0,0,1])'; %ONLY EVP
+
     useDataInAnalysis = qualityLaminarPenetration & trueIfRforiWasRunToday;
-    interpTheseChans = {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}';
+    interpTheseChans = {[15 16], [15],[17],[],[7 21],[10],[],[5 19 20],[16],[16],[15 17],[19 20 22],[5 10 16],[16],[]}';
     FileInformationTable = table(sessionListName,useDataInAnalysis, preLesionEvpFileName, rforiFileName, useChans,  interpTheseChans, qualityLaminarPenetration,trueIfRforiWasRunToday);
 
 
-% test test
 
-
+global OUTDIR_PLOT
 cd(OUTDIR_PLOT)
+
 for sessionNumber = 1:size(sessionListName,1)
+    
+
     if sessionNumber == 7
+        %warning('problem with session double')
         continue
 
     elseif FileInformationTable.useDataInAnalysis(sessionNumber)
-
-    
+          global COUNTER
+            COUNTER = sessionNumber;
 
         holderNameEVP = FileInformationTable.preLesionEvpFileName{sessionNumber};
         holderNameRfori = FileInformationTable.rforiFileName{sessionNumber};
-        holderUseChans = 1:24;   %FileInformationTable.useChans{sessionNumber};
+        holderUseChans = FileInformationTable.useChans{sessionNumber};
         holderInterpChans = FileInformationTable.interpTheseChans{sessionNumber};
          
         plotCSDandPSDfromNEV(holderNameEVP,holderUseChans,holderInterpChans);
               FigName   = strcat(sessionListName{sessionNumber},'_EVP');
-              savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
+              %savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
               %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
+              saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
               close all
               
-       plotCSDandPSDfromNEV(holderNameRfori,holderUseChans,holderInterpChans);
-              FigName   = strcat(sessionListName{sessionNumber},'_rfori');
-              savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
-              %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
-              close all
+%         plotCSDandPSDfromNEV(holderNameRfori,holderUseChans,holderInterpChans);
+%               FigName   = strcat(sessionListName{sessionNumber},'_rfori');
+%               %savefig(gcf, strcat(OUTDIR_PLOT, FigName, '.fig'));
+%               %saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.svg'));
+%               saveas(gcf, strcat(OUTDIR_PLOT, FigName, '.png'));
+%               close all
     end          
    
 end
-
 clc
+
 
 % 7 has a problem with rfori
 % 8 = 220216_B does not HAVE an rfori -- (did I get something wrong in

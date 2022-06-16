@@ -277,34 +277,12 @@ end
 crosses = readmatrix('MaierBastosCollabGBcrosses.xlsx');
 RelPowPlot = subplot(1,2,2); %subplot(1,6,6)
 
-
-
-% avgTheta = smoothdata(avgTheta,'gaussian');
-% avgBeta = smoothdata(avgBeta,'gaussian');
-% avgGamma = smoothdata(avgGamma,'gaussian');
-
-avgGamma = smooth(avgGamma);
-avgBeta = smooth(avgBeta);
-avgTheta = smooth(avgTheta);
-
-
-
-
 plot(avgTheta,'k','LineWidth',1)
 hold on
 plot(avgBeta,'b','LineWidth',1)
 hold on
-plot(fliplr(avgGamma),'r','LineWidth',1)
-hold on
-global COUNTER
-if (COUNTER) ~= 0 && (COUNTER) ~= 7
-xline(crosses(COUNTER),'color',[0,0,0]+.5,'LineWidth',2,'LineStyle','--')
+plot(fliplr(avgGamma),'r','LineWidth',1
 %axis([min(holderUseChans) max(holderUseChans)]);
-end 
-
-% if (COUNTER - 1) == 14
-%     xline(crosses(COUNTER-2),'color',[0,0,0]+.5,'LineWidth',2,'LineStyle','--')
-% end
 view([90 -90])
 set(gca,'xdir','reverse')
 legend('Theta','Beta','Gamma','Location','northeast')
